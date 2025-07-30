@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{649B8A7B-DD52-C5D2-88D2-C88989EEC846}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DisplayBoltPositions</RootNamespace>
+    <AssemblyName>DisplayBoltPositions</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>Unity Full v3.5</TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MSCLoader">
+      <HintPath>$(STEAM_APPS_COMMON)\My Summer Car\mysummercar_Data\Managed\MSCLoader.dll</HintPath>
+    </Reference>
+    <Reference Include="PlayMaker">
+      <HintPath>$(STEAM_APPS_COMMON)\My Summer Car\mysummercar_Data\Managed\PlayMaker.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UnityEngine">
+      <HintPath>$(STEAM_APPS_COMMON)\My Summer Car\mysummercar_Data\Managed\UnityEngine.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DisplayBoltPositions.cs" />
+    <Compile Include="IndicatorPool.cs" />
+    <Compile Include="IndicatorShader.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>setlocal
+set "MODS_FOLDER=%25STEAM_APPS_COMMON%25\My Summer Car\Mods"
+
+IF "$(ConfigurationName)" == "Debug" (
+  rm -f "%25MODS_FOLDER%25/$(TargetName).dll"
+  rm -f "%25MODS_FOLDER%25/$(TargetName).pdb"
+  rm -f "%25MODS_FOLDER%25/$(TargetName).dll.mdb"
+
+  copy "$(TargetPath)" "%25MODS_FOLDER%25" /y
+  copy "$(TargetDir)$(TargetName).pdb" "%25MODS_FOLDER%25" /y
+  cd "%25MODS_FOLDER%25"
+  call "%25MODS_FOLDER%25\debug.bat"
+) ELSE (
+  copy "$(TargetPath)" "%25MODS_FOLDER%25" /y
+)
+</PostBuildEvent>
+  </PropertyGroup>
+</Project>
