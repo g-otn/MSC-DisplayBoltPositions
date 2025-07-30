@@ -1,18 +1,20 @@
 ﻿using MSCLoader;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace DisplayBoltPositions
 {
     public class IndicatorPool
     {
-        private int size = 1;
+        private int _size = 10;
         private List<GameObject> _pool;
+        private int _counter = 0;
 
         public void Start()
         {
             _pool = new List<GameObject>();
-            for (int i = 0; i < size; i++)
+            for (int i = 0; i < _size; i++)
             {
                 GameObject obj = Spawn_Indicator();
                 _pool.Add(obj);
@@ -22,7 +24,7 @@ namespace DisplayBoltPositions
         private GameObject Spawn_Indicator()
         {
             GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-            sphere.name = "DisplayBoltPositions Indicator";
+            sphere.name = $"DisplayBoltPositions Indicator {(++_counter).ToString("D2")}";
 
             // Make it uninteractable by removing colliders
             UnityEngine.Object.DestroyImmediate(sphere.GetComponent<Collider>()); // Removes physics collider
@@ -49,8 +51,12 @@ namespace DisplayBoltPositions
             // Expand the pool if needed
             GameObject obj = Spawn_Indicator();
             _pool.Add(obj);
-            ModConsole.Print($"Expanded object pool to {_pool.Count + 1}");
             return obj;
+        }
+
+        public List<GameObject> Get_Active_Indicators()
+        {
+            return _pool.Where(g => g.activeInHierarchy).ToList();
         }
 
         public void Return_To_Pool(GameObject obj)

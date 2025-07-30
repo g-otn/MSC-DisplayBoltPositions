@@ -6,9 +6,7 @@ namespace DisplayBoltPositions
     {
         public static readonly int ColorProperty = Shader.PropertyToID("_Color");
 
-        private static float PulseSpeed = 1f;
-        private static float MinOpacity = 0.2f;
-        private static float MaxOpacity = 0.8f;
+        public static readonly float MinOpacity = 0f;
 
         private static string Code = $@"
             Shader ""Custom/DisplayBoltPositions_Indicator""
