@@ -11,8 +11,8 @@ namespace DisplayBoltPositions
         public override string ID => "DisplayBoltPositions"; // Your (unique) mod ID 
         public override string Name => "Display Bolt Positions"; // Your mod name
         public override string Author => "g-otn"; // Name of the Author (your name)
-        public override string Version => "1.0.0"; // Version
-        public override string Description => ""; // Short description of your mod
+        public override string Version => "1.0.1"; // Version
+        public override string Description => "Display where the bolts of the car part you are looking at are located."; // Short description of your mod
 
 
         SettingsCheckBox enabledCheckBox;

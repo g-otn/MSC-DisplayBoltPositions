@@ -58,8 +58,9 @@
     <PostBuildEvent>setlocal
 set "MODS_FOLDER=%25STEAM_APPS_COMMON%25\My Summer Car\Mods"
 
+rm -f "%25MODS_FOLDER%25/$(TargetName).dll"
+
 IF "$(ConfigurationName)" == "Debug" (
-  rm -f "%25MODS_FOLDER%25/$(TargetName).dll"
   rm -f "%25MODS_FOLDER%25/$(TargetName).pdb"
   rm -f "%25MODS_FOLDER%25/$(TargetName).dll.mdb"
 
