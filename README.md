@@ -13,10 +13,9 @@ This mod displays little semi-transparent spheres as indicators, which can be se
 ## Features
 - Look at a car part and visualize where the bolts are:
 
-![demo1](https://iili.io/FrYxF4V.gif)
-![demo2](https://iili.io/FrYxf3B.gif)
-![demo3](https://iili.io/FrYnvRe.gif)
-﻿
+![demo1.gif](https://iili.io/FrYnvRe.gif)
+![demo2.gif](https://iili.io/FrYxF4V.gif)
+![demo3.gif](https://iili.io/FrcaUXV.gif)
 
 ## Options
 - Change the style of the indicators such as size and color
