@@ -2,6 +2,22 @@
 
 A Quality-of-Life, MSCLoader mod for the My Summer Car game.
 
+## Setup (Development)
+### Requirements
+- [Visual Studio 2022 setup with MSCLoader](https://github.com/piotrulos/MSCModLoader/wiki/Install-Visual-Studio-for-MSCLoader)
+- Steam copy of My Summer Car [installed with MSCLoader](https://github.com/piotrulos/MSCModLoader/wiki/How-to-install-MSCLoader-using-MSCLInstaller)
+
+### Steps
+1. Set environment variable `STEAM_APPS_COMMON` for your user. This is used by Visual Studio project
+to find project references (`.dll`) inside the game folder and by post-build script to copy mod build file to Mods folder (assumes MSCLoader Mods folder is in game install)
+Example value:
+```
+C:\...\Steam\steamapps\common
+```
+
+2. Open the Visual Studio solution file
+
+
 ## Description
 _Don't want to watch a video just to know where exactly the bolts of a specific part are located?
 Maybe you just find it hard to see them among lots of pieces and awkward crouching or leaning?
