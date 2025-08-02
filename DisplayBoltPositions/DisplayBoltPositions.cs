@@ -11,9 +11,10 @@ namespace DisplayBoltPositions
         public override string ID => "DisplayBoltPositions"; // Your (unique) mod ID 
         public override string Name => "Display Bolt Positions"; // Your mod name
         public override string Author => "g-otn"; // Name of the Author (your name)
-        public override string Version => "1.0.1"; // Version
+        public override string Version => "1.1.0"; // Version
         public override string Description => "Display where the bolts of the car part you are looking at are located."; // Short description of your mod
 
+        SettingsKeybind toggleModKeybind;
 
         SettingsCheckBox enabledCheckBox;
 
@@ -49,9 +50,21 @@ namespace DisplayBoltPositions
 
         private void Mod_Settings()
         {
+            //
+            // Keybinds
+            //
+
+            toggleModKeybind = Keybind.Add("toggle", "Toggle indicators", KeyCode.G, KeyCode.LeftShift);
+
+
+
+            //
+            // Settings
+            //
+
             Settings.AddHeader("General");
             enabledCheckBox = Settings.AddCheckBox("enabled", "Display indicators", true);
-            Settings.AddText("Enables and disables the mod. When checked, opaque spheres will blink to indicate where bolts are positioned for the car part the player is looking at");
+            Settings.AddText("Enables and disables the mod. Can be toggled with keybind");
 
 
             Settings.AddHeader("Behavior");
@@ -65,12 +78,33 @@ namespace DisplayBoltPositions
             colorPicker = Settings.AddColorPickerRGBA("color", "Indicator color", new Color32(0, 200, 255, 40));
 
             Settings.AddText("");
-            pulseCheckBox = Settings.AddCheckBox("pulse", "Pulse animation", true, () => pulseIntervalSlider.SetVisibility(pulseCheckBox.GetValue()));
+            pulseCheckBox = Settings.AddCheckBox("pulse", "Pulse animation", true, Pulse_Checkbox_On_Value_Changed);
             pulseIntervalSlider = Settings.AddSlider("pulseInterval", "Pulse frequency", 1f, 20f, 7f, null, 0);
 
             Settings.AddHeader("Other");
             updateIntervalSlider = Settings.AddSlider("updateInterval", "Position update interval (milliseconds)", 5f, 1000f, 10f, null, 0);
             Settings.AddText("(low values may impact performance)");
+        }
+
+        private void Pulse_Checkbox_On_Value_Changed()
+        {
+            bool newValue = pulseCheckBox.GetValue();
+            pulseIntervalSlider.SetVisibility(newValue);
+
+            // Freeze colors
+            if (newValue)
+            {
+                return;
+            }
+
+            Color color = colorPicker.GetValue();
+
+            foreach (GameObject indicator in _indicatorPool.Get_Active_Indicators())
+            {
+
+                Renderer sphereRenderer = indicator.GetComponent<Renderer>();
+                sphereRenderer.material.SetColor(IndicatorShader.ColorProperty, color);
+            }
         }
 
         private void Mod_OnLoad()
@@ -81,6 +115,13 @@ namespace DisplayBoltPositions
 
         private void Mod_Update()
         {
+            // Toggle mod using keybind
+            if (toggleModKeybind.GetKeybindDown())
+            {
+                enabledCheckBox.SetValue(!enabledCheckBox.GetValue());
+            }
+
+
             Pulse_Indicators();
 
             // Frame skipping every configured interval
@@ -137,6 +178,12 @@ namespace DisplayBoltPositions
 
         private void Pulse_Indicators()
         {
+            if (!pulseCheckBox.GetValue())
+            {
+                return;
+            }
+
+
             List<GameObject> activeIndicators = _indicatorPool.Get_Active_Indicators();
 
             if (activeIndicators.Count == 0)
