@@ -34,6 +34,7 @@ This mod displays little semi-transparent spheres as indicators, which can be se
 ![demo3.gif](https://iili.io/FrcaUXV.gif)
 
 ## Options
+- Toggle indicators using <kbd>Shift</kbd>+<kbd>G</kbd>
 - Change the style of the indicators such as size and color
 - Toggle between indicators showing up only in tool mode or not
 
